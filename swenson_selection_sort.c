@@ -30,12 +30,12 @@
 
 /*
    We now have the following functions defined
-   * swenson_shell_sort
    * swenson_binary_insertion_sort
    * swenson_heap_sort
-   * swenson_quick_sort
    * swenson_merge_sort
+   * swenson_quick_sort
    * swenson_selection_sort
+   * swenson_shell_sort
    * swenson_tim_sort
 
    Each takes two arguments: double *array, size_t size
@@ -46,7 +46,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
     // Declare Variables
     double *arr;
-    size_t size;
+    mwSize size;
     double *dst;
 
     // Verify MEX File Input and Output Parameters
