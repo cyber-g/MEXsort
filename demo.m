@@ -1,6 +1,7 @@
-% DEMO - Test the sorting algorithms implemented in Swenson's sort.h library
-% This script benchmarks various sorting algorithms provided by the MEXsort project
-% and compares their performance with MATLAB's built-in `sort` function.
+% DEMO - Demo file of the MEXsort project
+% This script benchmarks various sorting algorithms provided by the Swenson's
+% sort.h library and compares their performance with MATLAB's built-in `sort`
+% function.
 % 
 % Compilation of the C source files must be done before running this script.
 % Please run in a terminal to compile the MEX files: 
@@ -24,6 +25,10 @@
 %    (https://github.com/swenson/sort),
 %    GitHub. Accessed on May 07, 2025.
 % 
+%    Analog Devices Inc. (2025). IIO Oscilloscope - waveforms
+%    (https://github.com/analogdevicesinc/iio-oscilloscope/)
+%    GitHub. Accessed on May 07, 2025.
+% 
 % License:
 % GNU General Public License v3.0
 % 
@@ -31,11 +36,34 @@
 % email: cygerpham@free.fr
 % May 2025; Last revision: 
 
-% Test the sorting algorithms
+% Enable the equality check
 assert_equality = false;
 
-% Generate random data for testing
-data = randn(300e3, 1);
+% Type of data to be sorted
+data_type = 'random'; % Please set to 'random' or 'telecom'
+
+if strcmp(data_type, 'telecom')
+    % Telecom data
+    % check if ./data directory exists
+    if ~exist('./data', 'dir')
+        % Create the directory
+        mkdir('./data');
+        % Download the telecom data file
+        url = 'https://github.com/analogdevicesinc/iio-oscilloscope/raw/refs/heads/main/waveforms/Tx_20MHz_245.76Msps_PeakScaling3.0dBFS_ETM1.1_PAR7.5dB_Offset0MHz.txt';
+        unix(['wget -P ./data ' url]);
+    end
+    
+    % Load telecom data from the provided file
+    data_IQ =readmatrix('./data/Tx_20MHz_245.76Msps_PeakScaling3.0dBFS_ETM1.1_PAR7.5dB_Offset0MHz.txt','NumHeaderLines', 1);
+
+    data = abs(complex(data_IQ(:, 1), data_IQ(:, 2)));
+    % Normalize the data to 1 RMS
+    data = data / sqrt(mean(data.^2));
+else
+    % Random data
+    % Generate random data for testing
+    data = randn(300e3, 1);
+end
 
 % Builtin MATLAB sort function
 disp('MATLAB builtin sort');
