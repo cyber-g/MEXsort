@@ -1,6 +1,9 @@
 # dotvscode
 .vscode
 
+# demo data
+data/
+
 # Prerequisites
 *.d
 
